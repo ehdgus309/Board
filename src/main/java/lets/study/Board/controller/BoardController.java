@@ -25,6 +25,7 @@ public class BoardController {
         this.boardService = boardService;
     }
 
+    //게시판 조회
     @GetMapping
     public List<Board> getAllBoards() {
     	List<Board> list = boardService.findAll();
@@ -35,6 +36,7 @@ public class BoardController {
         return boardService.findAll();
     }
 
+    //게시판 단건 조회
     @GetMapping("/{id}")
     public ResponseEntity<Board> getBoard(@PathVariable("id") Long id) {
     	return boardService.findById(id)
@@ -48,11 +50,13 @@ public class BoardController {
     	        });
     }
 
+    //게시판 등록
     @PostMapping
     public Board createBoard(@RequestBody Board board) {
         return boardService.save(board);
     }
 
+    //기사판 삭제
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteBoard(@PathVariable("id") Long id, @RequestBody Board requestBoard) {
         return boardService.findById(id)
@@ -68,6 +72,7 @@ public class BoardController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    //게시판 수정
     @PutMapping("/{id}")
     public ResponseEntity<?> updateBoard(@PathVariable("id") Long id, @RequestBody Board updatedBoard) {
         return boardService.findById(id)
