@@ -1,6 +1,7 @@
 package lets.study.Board.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lets.study.Board.controller.dto.BoardResponseDto;
 import lets.study.Board.entity.Board;
 import lets.study.Board.service.BoardService;
 
@@ -25,29 +27,32 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    //게시판 조회
+    // 전체 게시글 조회
     @GetMapping
-    public List<Board> getAllBoards() {
-    	List<Board> list = boardService.findAll();
-    	
-    	for(Board board: list ) {
-    		System.out.println(board);
-    	}
-        return boardService.findAll();
+    public List<BoardResponseDto> getAllBoards() {
+        List<Board> boards = boardService.findAll();
+
+        for (Board board : boards) {
+            System.out.println(board);
+        }
+
+        return boards.stream()
+                     .map(BoardResponseDto::new)
+                     .collect(Collectors.toList());
     }
 
-    //게시판 단건 조회
+    // 게시글 단건 조회
     @GetMapping("/{id}")
-    public ResponseEntity<Board> getBoard(@PathVariable("id") Long id) {
-    	return boardService.findById(id)
-    	        .map(board -> {
-    	            System.out.println("조회된 게시글: " + board);
-    	            return ResponseEntity.ok(board);
-    	        })
-    	        .orElseGet(() -> {
-    	            System.out.println("ID " + id + " 에 해당하는 게시글이 없습니다.");
-    	            return ResponseEntity.notFound().build();
-    	        });
+    public ResponseEntity<BoardResponseDto> getBoard(@PathVariable("id") Long id) {
+        return boardService.findById(id)
+                .map(board -> {
+                    System.out.println("조회된 게시글: " + board);
+                    return ResponseEntity.ok(new BoardResponseDto(board));
+                })
+                .orElseGet(() -> {
+                    System.out.println("ID " + id + " 에 해당하는 게시글이 없습니다.");
+                    return ResponseEntity.notFound().build();
+                });
     }
 
     //게시판 등록
