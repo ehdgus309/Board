@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판 목록</title>
+</head>
+<body>
+    <h1>📋 공지사항 목록</h1>
+    <a th:href="@{/boards/view/form}">[글쓰기]</a>
+    <table border="1">
+        <tr>
+            <th>ID</th><th>제목</th><th>작성자</th><th>작성일</th><th>관리</th>
+        </tr>
+        <tr th:each="board : ${boards}">
+            <td th:text="${board.id}"></td>
+            <td><a th:href="@{'/boards/view/' + ${board.id}}" th:text="${board.title}"></a></td>
+            <td th:text="${board.writer}"></td>
+            <td th:text="${board.createDate}"></td>
+            <td>
+                <a th:href="@{'/boards/view/edit/' + ${board.id}}">수정</a>
+                <form th:action="@{'/boards/view/delete/' + ${board.id}}" method="post" style="display:inline">
+                    <input type="password" name="password" placeholder="비밀번호">
+                    <button type="submit">삭제</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

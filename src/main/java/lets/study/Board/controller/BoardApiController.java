@@ -19,11 +19,11 @@ import lets.study.Board.service.BoardService;
 
 @RestController
 @RequestMapping("/boards")
-public class BoardController {
+public class BoardApiController {
 
     private final BoardService boardService;
 
-    public BoardController(BoardService boardService) {
+    public BoardApiController(BoardService boardService) {
         this.boardService = boardService;
     }
 
@@ -57,8 +57,9 @@ public class BoardController {
 
     //게시판 등록
     @PostMapping
-    public Board createBoard(@RequestBody Board board) {
-        return boardService.save(board);
+    public ResponseEntity<BoardResponseDto> createBoard(@RequestBody Board board) {
+        Board saved = boardService.save(board);
+        return ResponseEntity.ok(new BoardResponseDto(saved));
     }
 
     //기사판 삭제
