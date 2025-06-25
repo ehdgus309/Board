@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 수정</title>
+</head>
+<body>
+	<!-- 알림창 스크립트 -->
+	<script th:inline="javascript">
+	    if ([[${error != null}]]) {
+	        alert([[${error}]]);
+	    }
+	</script>
+<h1>✏️ 게시글 수정</h1>
+<form th:action="@{'/boards/view/edit/' + ${board.id}}" method="post">
+    <p>제목: <input type="text" name="title" th:value="${board.title}" required></p>
+    <p>작성자: <input type="text" name="writer" th:value="${board.writer}" required></p>
+    <p>내용: <textarea name="content" th:text="${board.content}" required></textarea></p>
+    <p>비밀번호: <input type="password" name="password" required></p>
+    <p><button type="submit">수정</button></p>
+</form>
+<a th:href="@{/boards/view}">목록으로</a>
+</body>
+</html>

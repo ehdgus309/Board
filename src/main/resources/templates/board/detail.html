@@ -1,0 +1,16 @@
+<!-- templates/board/detail.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세</title>
+</head>
+<body>
+<h1>📄 게시글 상세 보기</h1>
+<p><strong>제목:</strong> <span th:text="${board.title}"></span></p>
+<p><strong>작성자:</strong> <span th:text="${board.writer}"></span></p>
+<p><strong>내용:</strong> <span th:text="${board.content}"></span></p>
+<p><strong>작성일:</strong> <span th:text="${board.createDate}"></span></p>
+<a th:href="@{/boards/view}">목록으로</a>
+</body>
+</html>

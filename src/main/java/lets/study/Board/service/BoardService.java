@@ -1,5 +1,6 @@
 package lets.study.Board.service;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import org.springframework.stereotype.Service;
@@ -25,6 +26,9 @@ public class BoardService {
     }
 
     public Board save(Board board) {
+    	if (board.getCreateDate() == null) {
+            board.setCreateDate(LocalDate.now());
+        }
         return boardRepository.save(board);
     }
 

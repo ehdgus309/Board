@@ -26,7 +26,7 @@ public class BoardViewController {
         this.boardService = boardService;
     }
 
-    // 📋 게시글 목록 (DTO 사용)
+    // 게시글 목록
     @GetMapping
     public String boardList(Model model) {
         List<BoardResponseDto> dtos = boardService.findAll().stream()
@@ -36,41 +36,41 @@ public class BoardViewController {
         return "board/list";
     }
 
-    // 📄 단건 조회
+    // 단건 조회
     @GetMapping("/{id}")
-    public String boardDetail(@PathVariable Long id, Model model) {
+    public String boardDetail(@PathVariable("id") Long id, Model model) {
         Board board = boardService.findById(id).orElseThrow();
         model.addAttribute("board", new BoardResponseDto(board));
         return "board/detail";
     }
 
-    // 📝 작성 폼 (Entity 사용 – 입력용)
+    // 작성 폼 (Entity 사용 – 입력용)
     @GetMapping("/form")
     public String boardForm(Model model) {
         model.addAttribute("board", new Board()); // 입력은 Entity 사용
         return "board/form";
     }
 
-    // 💾 등록 처리
+    // 등록 처리
     @PostMapping("/form")
     public String createBoard(@ModelAttribute Board board) {
         boardService.save(board);
         return "redirect:/boards/view";
     }
 
-    // ✏️ 수정 폼 (DTO로 변환)
+    // 수정 폼 (DTO로 변환)
     @GetMapping("/edit/{id}")
-    public String editForm(@PathVariable Long id, Model model) {
+    public String editForm(@PathVariable("id") Long id, Model model) {
         Board board = boardService.findById(id).orElseThrow();
         model.addAttribute("board", board); // 폼에는 Entity 사용 (데이터 바인딩)
         return "board/edit";
     }
 
-    // 💾 수정 처리
+    // 수정 처리
     @PostMapping("/edit/{id}")
-    public String updateBoard(@PathVariable Long id, @ModelAttribute Board board, @RequestParam String password, Model model) {
+    public String updateBoard(@PathVariable("id") Long id, @ModelAttribute Board board, @RequestParam("password") String password, Model model) {
         Board existing = boardService.findById(id).orElseThrow();
-        if (!existing.getPassword().equals(password)) {
+        if (!password.equals(existing.getPassword())) {
             model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
             model.addAttribute("board", existing);
             return "board/edit";
@@ -80,11 +80,11 @@ public class BoardViewController {
         return "redirect:/boards/view";
     }
 
-    // ❌ 삭제 처리
+    // 삭제 처리
     @PostMapping("/delete/{id}")
-    public String deleteBoard(@PathVariable Long id, @RequestParam String password, Model model) {
+    public String deleteBoard(@PathVariable("id") Long id, @RequestParam("password") String password, Model model) {
         Board board = boardService.findById(id).orElseThrow();
-        if (!board.getPassword().equals(password)) {
+        if (!password.equals(board.getPassword())) {
             model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
             model.addAttribute("boards", boardService.findAll().stream()
                     .map(BoardResponseDto::new)
