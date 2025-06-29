@@ -5,14 +5,12 @@
     <title>게시판 목록</title>
 </head>
 <body>
-	<!-- 알림창 스크립트 -->
-	<script th:inline="javascript">
-	    if ([[${error != null}]]) {
-	        alert([[${error}]]);
-	    }
-	</script>
+
 
     <h1>📋 공지사항 목록</h1>
+	<form th:action="@{/api/members/logout}" method="post" style="display:inline">
+        <button type="submit">로그아웃</button>
+    </form>
     <a th:href="@{/boards/view/form}">[글쓰기]</a>
     <table border="1">
         <tr>
@@ -34,3 +32,4 @@
     </table>
 </body>
 </html>
+

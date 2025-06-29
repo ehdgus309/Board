@@ -1,0 +1,24 @@
+<!-- templates/member/register.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>회원가입</title>
+</head>
+<body>
+    <h2>회원가입</h2>
+	<form th:action="@{/boards/view/registerUser}" method="post" th:object="${signupRequestDto}">
+	    <label for="username">아이디</label>
+	    <input type="text" th:field="*{username}" required />
+
+	    <label for="password">비밀번호</label>
+	    <input type="password" th:field="*{password}" required />
+
+	    <button type="submit">회원가입</button>
+	</form>
+	<div th:if="${errorMessage}">
+	    <p th:text="${errorMessage}" style="color: red;"></p>
+	</div>
+    <a th:href="@{/boards/view/login}">로그인</a>
+</body>
+</html>
+
