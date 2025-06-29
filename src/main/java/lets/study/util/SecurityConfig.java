@@ -38,6 +38,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/boards/view/login",       // 로그인 페이지
                 		"/boards/view/login",       // 로그인 페이지 (permitAll)
+                		"/boards/view/register",  
                         "/boards/view/registerUser", // 회원가입 등 permitAll
                         "/register",
                         "/api/members/signup",

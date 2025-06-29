@@ -47,6 +47,8 @@ public class JwtAuthenticationFilter  extends OncePerRequestFilter{
                 List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
                 Authentication auth = new UsernamePasswordAuthenticationToken(username, null, authorities);
                 SecurityContextHolder.getContext().setAuthentication(auth);
+            }else {
+            	//response.sendRedirect("/boards/view/login");
             }
 		} catch (IOException e) {
 			e.printStackTrace();
